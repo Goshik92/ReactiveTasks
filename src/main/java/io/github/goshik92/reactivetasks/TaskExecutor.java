@@ -111,6 +111,14 @@ public class TaskExecutor
 	}
 	
 	/**
+	 * Same as {@code prepareTask(task, Task.PRIORITY_NORMAL)} (see {@link #prepareTask(Task, int)}).
+	 */
+	public <R> Observable<R> prepareTask(Task<R> task)
+	{
+		return prepareTask(task, Task.PRIORITY_NORMAL);
+	}
+	
+	/**
 	 * @return unique name of the task execution thread
 	 */
 	public String getThreadName()
