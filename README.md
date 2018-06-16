@@ -185,4 +185,4 @@ There are five standard priorities in the ```Task``` interface, but you can make
 
 # Requirements
 * Java 8
-* [RxJava s2](https://github.com/ReactiveX/RxJava)
+* [RxJava 2](https://github.com/ReactiveX/RxJava)
