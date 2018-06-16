@@ -53,7 +53,7 @@ public class Tests
 				.assertValues(3, 4, 2, 5, 1);
 	}
 	
-	@Test
+	@RepeatedTest(10)
 	public void testErrors() throws InterruptedException
 	{
 		TaskExecutor executor = new TaskExecutor();
