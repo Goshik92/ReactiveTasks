@@ -184,7 +184,7 @@ completable4.subscribe();
 There are five standard priorities in the ```Task``` interface, but you can make up as many priority levels as ```int``` type allows. 
 
 # Installation
-[Download](/releases) the latest version and add it to your build path. Make sure you also added RxJava.
+[Download](https://github.com/Goshik92/ReactiveTasks/releases/latest) the latest version and add it to your build path. Make sure you also added RxJava.
 
 # Requirements
 * Java 8
