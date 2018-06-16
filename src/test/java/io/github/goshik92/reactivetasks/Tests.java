@@ -54,7 +54,7 @@ public class Tests
 	}
 	
 	@Test
-	public void testErrors()
+	public void testErrors() throws InterruptedException
 	{
 		TaskExecutor executor = new TaskExecutor();
 		executor.start();
@@ -62,6 +62,7 @@ public class Tests
 		Task<Integer> t = e -> { throw new IllegalStateException(); };
 		executor.prepareTask(t, Task.PRIORITY_LOWEST)
 				.test()
+				.await()
 				.assertError(IllegalStateException.class)
 				.assertNotComplete();
 	}
