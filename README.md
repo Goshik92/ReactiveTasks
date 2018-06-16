@@ -122,7 +122,7 @@ class ReadButtonTask implements Task<Boolean>
         if (buttonId == 1) emitter.onNext(true);
         
         // Button 2 randomly changes its state
-        else if (buttonId == 2) emitter.onNext(Math.random() > 0.5)
+        else if (buttonId == 2) emitter.onNext(Math.random() > 0.5);
         
         // There are only two buttons
         else throw new NoSuchElementException("There is no button" + buttonId);
