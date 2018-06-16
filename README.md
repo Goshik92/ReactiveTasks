@@ -12,27 +12,27 @@ Suppose we need to send commands controlling LEDs to Arduino via the serial port
 // We use Void here because the task does not produce any results
 SwitchLedTask implements Task<Void>
 {
-	private final int ledId;
-	private final boolean ledState;
-	
-	public SwitchLedTask(int ledId, boolean ledState)
-	{
-		this.ledId = ledId;
-		this.ledState = ledState;
-	}
-	
-	@Override
-	public void routine(ObservableEmitter<Void> emitter) throws Exception
-	{
-		// Send the command via a dummy serial port
-		System.out.println("LED" + ledId + "=" + ledState);
-		
-		// Imitate communication delay
-		Thread.sleep(1000);
-		
-		// Imitate communication error that may happen once in a while
-		if (Math.random() < 0.1) throw new Exception("Communication error");
-	}
+    private final int ledId;
+    private final boolean ledState;
+    
+    public SwitchLedTask(int ledId, boolean ledState)
+    {
+        this.ledId = ledId;
+        this.ledState = ledState;
+    }
+    
+    @Override
+    public void routine(ObservableEmitter<Void> emitter) throws Exception
+    {
+        // Send the command via a dummy serial port
+        System.out.println("LED" + ledId + "=" + ledState);
+        
+        // Imitate communication delay
+        Thread.sleep(1000);
+        
+        // Imitate communication error that may happen once in a while
+        if (Math.random() < 0.1) throw new Exception("Communication error");
+    }
 }
 
 ```
@@ -56,8 +56,8 @@ Since the task is executed asynchronously, you might want to do something upon i
 ```Java
 completable1.subscribe(() -> 
 {
-	// Do something on completion
-	// ...
+    // Do something on completion
+    // ...
 });
 ```
 
@@ -75,15 +75,15 @@ Or you can [retry](http://reactivex.io/documentation/operators/retry.html) to re
 
 ```Java
 completable1
-		// Print error message
-		.doOnError(e -> System.out.println(e.getMessage()))
+        // Print error message
+        .doOnError(e -> System.out.println(e.getMessage()))
 
-		// Resubscribe every time an error occurs
-		// (this will lead to adding the task in the queue again and again)
-		.retry()
-		
-		// Subscribe to the chain
-		.subscribe(() -> System.out.println("Completed"))
+        // Resubscribe every time an error occurs
+        // (this will lead to adding the task in the queue again and again)
+        .retry()
+        
+        // Subscribe to the chain
+        .subscribe(() -> System.out.println("Completed"))
 ```
 If an error happens, the code above code results in:
 ```
@@ -101,32 +101,32 @@ We may want to read button states of our Arduino device:
 ```Java
 ReadButtonTask implements Task<Boolean>
 {
-	private final int buttonId;
-	
-	public ReadButtonTask(int buttonId)
-	{
-		this.buttonId = buttonId;
-	}
-	
-	@Override
-	public void routine(ObservableEmitter<Boolean> emitter) throws Exception
-	{
-		// Read button state from Arduino
-		// ...
-	
-		// Imitate communication delay
-		Thread.sleep(1000);
-		
-		// Using emitter.onNext(...) we can send data to the subscriber
-		// Button 1 is always pressed
-		if (buttonId == 1) emitter.onNext(true);
-		
-		// Button 2 randomly changes its state
-		else if (buttonId == 2) emitter.onNext(Math.random() > 0.5)
-		
-		// There are only two buttons
-		else throw new NoSuchElementException("There is no button" + buttonId);
-	}
+    private final int buttonId;
+    
+    public ReadButtonTask(int buttonId)
+    {
+        this.buttonId = buttonId;
+    }
+    
+    @Override
+    public void routine(ObservableEmitter<Boolean> emitter) throws Exception
+    {
+        // Read button state from Arduino
+        // ...
+    
+        // Imitate communication delay
+        Thread.sleep(1000);
+        
+        // Using emitter.onNext(...) we can send data to the subscriber
+        // Button 1 is always pressed
+        if (buttonId == 1) emitter.onNext(true);
+        
+        // Button 2 randomly changes its state
+        else if (buttonId == 2) emitter.onNext(Math.random() > 0.5)
+        
+        // There are only two buttons
+        else throw new NoSuchElementException("There is no button" + buttonId);
+    }
 }
 ```
 
@@ -148,15 +148,15 @@ It may be important to prioritize some tasks over others. For example, you may w
 ReadButtonTask t3 = new ReadButtonTask(2);
 Observable<Boolean> observable3 = executor.prepareTask(t3);
 observable3
-		 // Repeat the task endlessly
-		.repeat()
-		
-		// Filter out repeated states so that the subscriber
-		// will only be notified when the state changes
-		.distinctUntilChanged()
-		
-		// Subscribe to the chain
-		.subscribe(state -> System.out.println("button2=" + state));
+         // Repeat the task endlessly
+        .repeat()
+        
+        // Filter out repeated states so that the subscriber
+        // will only be notified when the state changes
+        .distinctUntilChanged()
+        
+        // Subscribe to the chain
+        .subscribe(state -> System.out.println("button2=" + state));
 ```
 
 ```
