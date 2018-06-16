@@ -10,7 +10,7 @@ Suppose we need to send commands controlling LEDs to Arduino via the serial port
 
 ```Java
 // We use Void here because the task does not produce any results
-SwitchLedTask implements Task<Void>
+class SwitchLedTask implements Task<Void>
 {
     private final int ledId;
     private final boolean ledState;
@@ -99,7 +99,7 @@ To delay repetition or retrial, or to examine the exceptions you get for decidin
 We may want to read button states of our Arduino device:
 
 ```Java
-ReadButtonTask implements Task<Boolean>
+class ReadButtonTask implements Task<Boolean>
 {
     private final int buttonId;
     
