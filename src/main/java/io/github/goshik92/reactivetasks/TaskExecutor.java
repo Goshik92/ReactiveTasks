@@ -81,7 +81,7 @@ public class TaskExecutor
 	
 	/**
 	 * Stops execution of the tasks
-	 * @throws InterruptedException 
+	 * @throws InterruptedException if the current thread is interrupted
 	 */
 	public final synchronized void stop() throws InterruptedException
 	{
@@ -99,9 +99,10 @@ public class TaskExecutor
 	 * The actual adding will happen when after subscription on the returned {@link Observable}.
 	 * Warning! Every time you subscribe to the {@link Observable}, the task is added to the queue.
 	 * @param task the task to be added into the queue
-	 * @param the priority of the task (the higher the number the lower the priority
+	 * @param priority the priority of the task (the higher the number the lower the priority
 	 * , see {@link PriorityQueue} for further detail)
-	 * @return
+	 * @return {@link Observable} that allows to control and watch for task execution
+	 * @param <R> the type of the task execution result
 	 */
 	public <R> Observable<R> prepareTask(Task<R> task, int priority)
 	{
